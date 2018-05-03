@@ -13,3 +13,8 @@ func ReadProxy() ([]*Proxy, error) {
 	fmt.Printf("%+v\n", ret)
 	return records, nil
 }
+
+func InsertProxy(proxyList []*Proxy) error {
+	// TODO https://github.com/btfak/sqlext
+	return nil
+}
