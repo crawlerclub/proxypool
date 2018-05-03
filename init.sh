@@ -1,4 +1,4 @@
-mysql -h$1 -u$2 -p$3 <<EOF
+mysql -h127.0.0.1 -uroot -phe110 <<EOF
     CREATE DATABASE IF NOT EXISTS proxy;
     use proxy;
     CREATE TABLE IF NOT EXISTS proxy (
