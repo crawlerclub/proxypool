@@ -12,3 +12,7 @@ type Proxy struct {
 	TotalCrawl   uint64    `json:"total_crawl" gorm:"total_crawl"`
 	TotalFail    uint64    `json:"total_fail" gorm:"total_fail"`
 }
+
+func (Proxy) TableName() string {
+	return "proxy"
+}
