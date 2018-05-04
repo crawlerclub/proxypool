@@ -1,8 +1,11 @@
 package proxypool
 
 import (
+	"fmt"
 	"github.com/golang/glog"
+	"github.com/liuzl/dl"
 	"reflect"
+	"regexp"
 	"runtime"
 )
 
@@ -11,14 +14,28 @@ func GetFunctionName(i interface{}) string {
 }
 
 func CrawlCZ88() []string {
-	glog.Info("get proxies from: http://www.cz88.net/proxy/index.shtml")
-	return nil
+	url := "http://www.cz88.net/proxy/index.shtml"
+	regex := `<div class="ip">.*?([\d\.]*?)</div><div class="port">([\d]*?)</div>`
+	re := regexp.MustCompile(regex)
+	glog.Infof("get proxies from: %s", url)
+	resp := dl.DownloadUrl(url)
+	if resp.Error != nil {
+		glog.Error(resp.Error)
+		return nil
+	}
+	matches := re.FindAllStringSubmatch(resp.Text, -1)
+	var ret []string
+	for _, m := range matches {
+		ret = append(ret, fmt.Sprintf("%s:%s", m[1], m[2]))
+	}
+	return ret
 }
 
 func CrawlProxy() {
 	glog.Info("start crawling")
 	funcs := []func() []string{CrawlCZ88}
 	for _, f := range funcs {
-		f()
+		ret := f()
+		glog.Info(ret)
 	}
 }
