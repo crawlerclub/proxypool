@@ -3,7 +3,6 @@ package proxypool
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"github.com/liuzl/sqlext"
 )
 
 func ReadProxy() ([]*Proxy, error) {
@@ -20,8 +19,11 @@ func InsertProxy(proxies []*Proxy) error {
 		return nil
 	}
 	db := GetMySQLHandler()
-	_, err := sqlext.BatchInsert(db.DB(), proxies)
-	return err
+	for _, proxy := range proxies {
+		db.Set("gorm:insert_option", "ON DUPLICATE KEY UPDATE update_time=now()").
+			Create(proxy)
+	}
+	return nil
 }
 
 func InvalidProxy(addr string) error {
