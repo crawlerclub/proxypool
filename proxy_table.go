@@ -2,6 +2,7 @@ package proxypool
 
 import (
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
 func ReadProxy() (records []*Proxy, err error) {
@@ -11,13 +12,25 @@ func ReadProxy() (records []*Proxy, err error) {
 	return
 }
 
-func InsertProxy(proxies []*Proxy) error {
-	if len(proxies) <= 0 {
-		return nil
-	}
+func InsertProxyStr(proxies []string) error {
 	db := GetMySQLHandler()
 	for _, proxy := range proxies {
-		if err := db.Set("gorm:insert_option", "ON DUPLICATE KEY UPDATE update_time=now()").
+		if err := db.Set("gorm:insert_option",
+			"ON DUPLICATE KEY UPDATE update_time=now()").
+			Create(&Proxy{IpPort: proxy,
+				UpdateTime:   time.Now(),
+				LastFailTime: time.Unix(0, 0)}).Error; err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func InsertProxy(proxies []*Proxy) error {
+	db := GetMySQLHandler()
+	for _, proxy := range proxies {
+		if err := db.Set("gorm:insert_option",
+			"ON DUPLICATE KEY UPDATE update_time=now()").
 			Create(proxy).Error; err != nil {
 			return err
 		}

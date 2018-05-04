@@ -15,6 +15,15 @@ func TestReadProxy(t *testing.T) {
 	}
 }
 
+func TestInsertProxyStr(t *testing.T) {
+	proxies := []string{
+		"127.0.0.1:8080",
+	}
+	if err := InsertProxyStr(proxies); err != nil {
+		t.Error(err)
+	}
+}
+
 func TestInsertProxy(t *testing.T) {
 	proxies := []*Proxy{
 		&Proxy{IpPort: "127.0.0.1:8080",
