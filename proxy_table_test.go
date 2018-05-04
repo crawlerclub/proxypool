@@ -10,7 +10,9 @@ func TestReadProxy(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(ret)
+	for _, p := range ret {
+		t.Logf("%+v", p.IpPort)
+	}
 }
 
 func TestInsertProxy(t *testing.T) {

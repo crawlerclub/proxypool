@@ -8,7 +8,9 @@ import (
 )
 
 var (
-	mysqlUri = flag.String("mysql_uri", "root:@/proxy?charset=utf8&parseTime=True&loc=Local", "mysql uri")
+	mysqlUri = flag.String("mysql_uri",
+		"root:@/proxy?charset=utf8&parseTime=True&loc=Local",
+		"mysql uri")
 
 	mysqlDB *gorm.DB
 	mu      sync.Mutex
