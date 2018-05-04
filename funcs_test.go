@@ -5,5 +5,6 @@ import (
 )
 
 func TestCrawlDigger(t *testing.T) {
-	crawlDigger()
+	ret := crawlDigger()
+	t.Log(ret)
 }

@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"github.com/golang/glog"
 	"github.com/liuzl/dl"
+	"github.com/robertkrimen/otto"
+	"io/ioutil"
 	"regexp"
 )
 
 func init() {
 	NameFuncs["cz88"] = crawlCZ88
+	NameFuncs["digger"] = crawlDigger
 }
 
 var (
@@ -50,12 +53,29 @@ func crawlDigger() []string {
 		glog.Error("couldn't find baidu_union_id in page text")
 		return nil
 	}
-	//key := matches[0][1]
+	key := matches[0][1]
+
+	script, err := ioutil.ReadFile("aes.js")
+	if err != nil {
+		glog.Error(err)
+		return nil
+	}
+	vm := otto.New()
+	if _, err = vm.Run(script); err != nil {
+		glog.Error(err)
+		return nil
+	}
 
 	matches = ReDigger.FindAllStringSubmatch(resp.Text, -1)
 	var ret []string
 	for _, m := range matches {
-		glog.Info(m[1])
+		result, err := vm.Run(fmt.Sprintf(
+			"var baidu_union_id='%s'; decrypt('%s');", key, m[1]))
+		if err != nil {
+			glog.Error(err)
+			break
+		}
+		ret = append(ret, fmt.Sprintf("%v", result))
 	}
 	return ret
 }
