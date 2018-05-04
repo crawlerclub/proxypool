@@ -27,7 +27,7 @@ func InsertProxy(proxies []*Proxy) error {
 }
 
 func InvalidProxy(addr string) error {
-	GetMySQLHandler().Model(Proxy{}).Where("IpPort=?", addr).Updates(
+	GetMySQLHandler().Model(Proxy{}).Where("ip_port=?", addr).Updates(
 		map[string]interface{}{
 			"last_fail_time": gorm.Expr("now()"),
 			"total_fail":     gorm.Expr("total_fail+?", 1),
