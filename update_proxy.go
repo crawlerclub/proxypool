@@ -8,12 +8,9 @@ var NameFuncs = make(map[string]func() []string)
 
 func CrawlProxy() {
 	glog.Info("start crawling")
-	funcs := []string{"cz88"}
-	for _, f := range funcs {
-		if NameFuncs[f] == nil {
-			continue
-		}
-		ret := NameFuncs[f]()
+	for name, f := range NameFuncs {
+		glog.Infof("run %s", name)
+		ret := f()
 		glog.Info(ret)
 	}
 }
