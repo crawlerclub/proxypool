@@ -36,7 +36,7 @@ func InvalidProxy(addr string) error {
 }
 
 func AcquireProxy(addr string) error {
-	GetMySQLHandler().Model(Proxy{}).Where("IpPort=?", addr).Updates(
+	GetMySQLHandler().Model(Proxy{}).Where("ip_port=?", addr).Updates(
 		map[string]interface{}{
 			"total_crawl": gorm.Expr("total_crawl+?", 1),
 		})

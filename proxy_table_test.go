@@ -29,3 +29,10 @@ func TestInvalidProxy(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestAcquireProxy(t *testing.T) {
+	addr := "127.0.0.1:8080"
+	if err := AcquireProxy(addr); err != nil {
+		t.Error(err)
+	}
+}
