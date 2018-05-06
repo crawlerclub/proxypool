@@ -2,16 +2,12 @@ package proxypool
 
 import (
 	"fmt"
+	"github.com/GeertJohan/go.rice"
 	"github.com/golang/glog"
 	"github.com/liuzl/dl"
 	"github.com/robertkrimen/otto"
-	"io/ioutil"
 	"regexp"
 )
-
-func init() {
-	NameFuncs["digger"] = crawlDigger
-}
 
 var (
 	DiggerUrl        = "http://www.site-digger.com/html/articles/20110516/proxieslist.html"
@@ -19,7 +15,24 @@ var (
 	ReDigger         = regexp.MustCompile(DiggerPattern)
 	DiggerKeyPattern = `var baidu_union_id = "(.+)";`
 	ReDiggerKey      = regexp.MustCompile(DiggerKeyPattern)
+	vm               = otto.New()
 )
+
+func init() {
+	box, err := rice.FindBox("files")
+	if err != nil {
+		panic(err)
+	}
+	aes, err := box.String("aes.js")
+	if err != nil {
+		panic(err)
+	}
+	if _, err = vm.Run(aes); err != nil {
+		panic(err)
+	}
+
+	NameFuncs["digger"] = crawlDigger
+}
 
 func crawlDigger() []string {
 	glog.Infof("get proxies from: %s", DiggerUrl)
@@ -34,18 +47,6 @@ func crawlDigger() []string {
 		return nil
 	}
 	key := matches[0][1]
-
-	script, err := ioutil.ReadFile("aes.js")
-	if err != nil {
-		glog.Error(err)
-		return nil
-	}
-	vm := otto.New()
-	if _, err = vm.Run(script); err != nil {
-		glog.Error(err)
-		return nil
-	}
-
 	matches = ReDigger.FindAllStringSubmatch(resp.Text, -1)
 	var ret []string
 	for _, m := range matches {
