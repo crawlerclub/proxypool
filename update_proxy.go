@@ -8,9 +8,9 @@ import (
 )
 
 var NameFuncs = make(map[string]func() []string)
-var proxyChan = make(chan string)
 
 func CrawlProxy(exitCh chan bool, wg *sync.WaitGroup) {
+	defer wg.Done()
 	glog.Info("start crawling proxies")
 	proxy_set := make(map[string]bool)
 	proxy_num := 0
@@ -28,15 +28,17 @@ func CrawlProxy(exitCh chan bool, wg *sync.WaitGroup) {
 	}
 	glog.Infof("total: %d, deduped: %d", proxy_num, len(proxy_set))
 	glog.Info("begin to validate")
+	var proxyChan = make(chan string)
 	for i := 0; i < 60; i++ {
-		go doValidate(exitCh, wg)
+		go doValidate(exitCh, proxyChan, wg)
 	}
 	for p, _ := range proxy_set {
 		proxyChan <- p
 	}
+	close(proxyChan)
 }
 
-func doValidate(exitCh chan bool, wg *sync.WaitGroup) {
+func doValidate(exitCh chan bool, proxyChan chan string, wg *sync.WaitGroup) {
 	wg.Add(1)
 	defer wg.Done()
 	for {
