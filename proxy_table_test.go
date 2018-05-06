@@ -16,20 +16,17 @@ func TestReadProxy(t *testing.T) {
 }
 
 func TestInsertProxyStr(t *testing.T) {
-	proxies := []string{
-		"127.0.0.1:8080",
-	}
-	if err := InsertProxyStr(proxies); err != nil {
+	p := "127.0.0.1:8080"
+	if err := InsertProxyStr(p); err != nil {
 		t.Error(err)
 	}
 }
 
 func TestInsertProxy(t *testing.T) {
-	proxies := []*Proxy{
-		&Proxy{IpPort: "127.0.0.1:8080",
-			UpdateTime:   time.Now(),
-			LastFailTime: time.Unix(0, 0)}}
-	if err := InsertProxy(proxies); err != nil {
+	proxy := &Proxy{IpPort: "127.0.0.1:8080",
+		UpdateTime:   time.Now(),
+		LastFailTime: time.Unix(0, 0)}
+	if err := InsertProxy(proxy); err != nil {
 		t.Error(err)
 	}
 }
