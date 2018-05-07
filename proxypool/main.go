@@ -10,6 +10,10 @@ import (
 	"syscall"
 )
 
+var (
+	update = flag.Bool("update", false, "proxy update flag")
+)
+
 func stop(sigs chan os.Signal, exitCh chan bool) {
 	<-sigs
 	glog.Info("receive stop signal!")
@@ -25,8 +29,10 @@ func main() {
 	go stop(sigs, exitCh)
 
 	var wg sync.WaitGroup
-	wg.Add(1)
-	go proxypool.Run(exitCh, &wg)
+	if *update {
+		wg.Add(1)
+		go proxypool.Run(exitCh, &wg)
+	}
 
 	server := &proxypool.ProxyServer{}
 	wg.Add(1)
