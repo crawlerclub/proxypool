@@ -25,7 +25,7 @@ func main() {
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go proxypool.CrawlProxy(exitCh, &wg)
+	go proxypool.Run(exitCh, &wg)
 	wg.Wait()
-	glog.Info("Done!")
+	glog.Info("exit!")
 }

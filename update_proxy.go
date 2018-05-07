@@ -3,14 +3,29 @@ package proxypool
 import (
 	"github.com/golang/glog"
 	"github.com/liuzl/dl"
+	"github.com/liuzl/goutil"
 	"strings"
 	"sync"
+	"time"
 )
 
 var NameFuncs = make(map[string]func() []string)
 
-func CrawlProxy(exitCh chan bool, wg *sync.WaitGroup) {
+func Run(exitCh chan bool, wg *sync.WaitGroup) {
 	defer wg.Done()
+	for {
+		select {
+		case <-exitCh:
+			return
+		default:
+			CrawlProxy(exitCh, wg)
+			glog.Info("done!")
+			goutil.Sleep(60*time.Minute, exitCh)
+		}
+	}
+}
+
+func CrawlProxy(exitCh chan bool, wg *sync.WaitGroup) {
 	glog.Info("start crawling proxies")
 	proxy_set := make(map[string]bool)
 	proxy_num := 0
