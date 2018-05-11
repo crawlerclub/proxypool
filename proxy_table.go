@@ -15,8 +15,7 @@ func ReadProxy() (records []*Proxy, err error) {
 func InsertProxyStr(p string) error {
 	return GetMySQLHandler().Set("gorm:insert_option",
 		"ON DUPLICATE KEY UPDATE update_time=now()").
-		Create(&Proxy{IpPort: p, UpdateTime: time.Now(),
-			LastFailTime: time.Unix(0, 0)}).Error
+		Create(&Proxy{IpPort: p, UpdateTime: time.Now()}).Error
 }
 
 func InsertProxy(proxy *Proxy) error {
