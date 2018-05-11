@@ -45,6 +45,7 @@ func CrawlProxy(exitCh chan bool, wg *sync.WaitGroup) {
 	glog.Info("begin to validate")
 	var proxyChan = make(chan string)
 	for i := 0; i < 60; i++ {
+		wg.Add(1)
 		go doValidate(exitCh, proxyChan, wg)
 	}
 	for p, _ := range proxy_set {
@@ -54,7 +55,6 @@ func CrawlProxy(exitCh chan bool, wg *sync.WaitGroup) {
 }
 
 func doValidate(exitCh chan bool, proxyChan chan string, wg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 	for {
 		select {
