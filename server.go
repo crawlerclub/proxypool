@@ -2,13 +2,15 @@ package proxypool
 
 import (
 	"flag"
+	"math/rand"
+	"net/http"
+	"strings"
+	"sync"
+	"time"
+
 	"github.com/golang/glog"
 	"github.com/liuzl/goutil"
 	"github.com/liuzl/goutil/rest"
-	"math/rand"
-	"net/http"
-	"sync"
-	"time"
 )
 
 var (
@@ -66,10 +68,14 @@ func (s *ProxyServer) Web() {
 		w.Write([]byte(s.Get()))
 	}))
 
+	replacer := strings.NewReplacer("http://", "", "https://", "")
+
 	http.Handle("/bad", rest.WithLog(func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		p := r.FormValue("p")
+		glog.Infof("proxy %s invalid", p)
 		if p != "" {
+			p = replacer.Replace(p)
 			if err := InvalidProxy(p); err != nil {
 				glog.Error(err)
 				w.Write([]byte("err"))
