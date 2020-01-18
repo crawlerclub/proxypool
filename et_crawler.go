@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 
 	"crawler.club/et"
+	"github.com/golang/glog"
 )
 
 type Crawler struct {
@@ -25,6 +26,7 @@ func NewCrawler(conf string) *Crawler {
 }
 
 func (c *Crawler) Crawl() []string {
+	glog.Infof("get proxies from: %s", c.p.ExampleUrl)
 	_, items, err := c.p.Do()
 	if err != nil || len(items) == 0 {
 		return nil
