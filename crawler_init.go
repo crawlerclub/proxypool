@@ -8,4 +8,5 @@ func add(name string) {
 func init() {
 	add("xici")
 	add("kuaidaili")
+	add("89ip")
 }

@@ -1,0 +1,27 @@
+{
+  "name": "89ip",
+  "example_url": "http://www.89ip.cn/",
+  "ua": "pc",
+  "default_fields": false,
+  "rules": {
+    "root": [
+      {
+        "type": "dom",
+        "key": "item",
+        "xpath": "//table//tr"
+      }
+    ],
+    "item": [
+      {
+        "type": "text",
+        "key": "ip",
+        "xpath": "./td[1]"
+      }, {
+        "type": "text",
+        "key": "port",
+        "xpath": "./td[2]"
+      }
+    ]
+  },
+  "js": ""
+}
