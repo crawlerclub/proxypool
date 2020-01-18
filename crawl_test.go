@@ -10,6 +10,13 @@ func TestCrawlDigger(t *testing.T) {
 }
 
 func TestCrawlXici(t *testing.T) {
-	ret := crawlXici()
+	c := NewCrawler("files/xici.json")
+	ret := c.Crawl()
+	t.Log(ret)
+}
+
+func TestCrawlKuaidaili(t *testing.T) {
+	c := NewCrawler("files/kuaidaili.json")
+	ret := c.Crawl()
 	t.Log(ret)
 }

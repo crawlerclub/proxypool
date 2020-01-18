@@ -1,0 +1,27 @@
+{
+  "name": "kuaidaili",
+  "example_url": "https://www.kuaidaili.com/free/inha/1/",
+  "ua": "pc",
+  "default_fields": false,
+  "rules": {
+    "root": [
+      {
+        "type": "dom",
+        "key": "item",
+        "xpath": "//div[@id='list']//tr"
+      }
+    ],
+    "item": [
+      {
+        "type": "text",
+        "key": "ip",
+        "xpath": "./td[1]"
+      }, {
+        "type": "text",
+        "key": "port",
+        "xpath": "./td[2]"
+      }
+    ]
+  },
+  "js": ""
+}
