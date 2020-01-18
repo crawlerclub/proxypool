@@ -2,11 +2,12 @@ package proxypool
 
 import (
 	"fmt"
-	"github.com/GeertJohan/go.rice"
-	"github.com/golang/glog"
-	"github.com/liuzl/dl"
-	"github.com/robertkrimen/otto"
+	"io/ioutil"
 	"regexp"
+
+	"crawler.club/dl"
+	"github.com/golang/glog"
+	"github.com/robertkrimen/otto"
 )
 
 var (
@@ -19,14 +20,17 @@ var (
 )
 
 func init() {
-	box, err := rice.FindBox("files")
+	b, err := ioutil.ReadFile("files/aes.js")
 	if err != nil {
 		panic(err)
 	}
-	aes, err := box.String("aes.js")
-	if err != nil {
-		panic(err)
-	}
+	aes := string(b)
+	/*
+		aes, err := box.String("aes.js")
+		if err != nil {
+			panic(err)
+		}
+	*/
 	if _, err = vm.Run(aes); err != nil {
 		panic(err)
 	}
