@@ -1,0 +1,27 @@
+{
+  "name": "xici",
+  "example_url": "https://www.xicidaili.com/",
+  "ua": "pc",
+  "default_fields": false,
+  "rules": {
+    "root": [
+      {
+        "type": "dom",
+        "key": "item",
+        "xpath": "//table[@id='ip_list']//tr"
+      }
+    ],
+    "item": [
+      {
+        "type": "text",
+        "key": "ip",
+        "xpath": "./td[2]"
+      }, {
+        "type": "text",
+        "key": "port",
+        "xpath": "./td[3]"
+      }
+    ]
+  },
+  "js": ""
+}
