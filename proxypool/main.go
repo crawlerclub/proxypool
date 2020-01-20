@@ -2,12 +2,13 @@ package main
 
 import (
 	"flag"
-	"github.com/crawlerclub/proxypool"
-	"github.com/golang/glog"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
+
+	"github.com/crawlerclub/proxypool"
+	"github.com/golang/glog"
 )
 
 var (
