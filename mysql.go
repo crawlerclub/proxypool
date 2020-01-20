@@ -2,9 +2,10 @@ package proxypool
 
 import (
 	"flag"
+	"sync"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"sync"
 )
 
 var (

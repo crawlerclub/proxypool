@@ -1,12 +1,13 @@
 package proxypool
 
 import (
-	"github.com/golang/glog"
-	"github.com/liuzl/dl"
-	"github.com/liuzl/goutil"
 	"strings"
 	"sync"
 	"time"
+
+	"crawler.club/dl"
+	"github.com/golang/glog"
+	"zliu.org/goutil"
 )
 
 var NameFuncs = make(map[string]func() []string)

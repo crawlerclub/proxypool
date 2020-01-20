@@ -1,8 +1,9 @@
 package proxypool
 
 import (
-	"github.com/jinzhu/gorm"
 	"time"
+
+	"github.com/jinzhu/gorm"
 )
 
 func ReadProxy() (records []*Proxy, err error) {

@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/liuzl/goutil"
-	"github.com/liuzl/goutil/rest"
+	"zliu.org/goutil"
+	"zliu.org/goutil/rest"
 )
 
 var (
