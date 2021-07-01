@@ -2,9 +2,10 @@ package proxypool
 
 import (
 	"fmt"
-	"github.com/golang/glog"
-	"github.com/liuzl/dl"
 	"regexp"
+
+	"crawler.club/dl"
+	"github.com/golang/glog"
 )
 
 func init() {
